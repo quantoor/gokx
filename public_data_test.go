@@ -2,6 +2,7 @@ package okx
 
 import (
 	"context"
+	"fmt"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
@@ -16,8 +17,9 @@ func TestGetInstruments(t *testing.T) {
 
 func TestGetLimitPrice(t *testing.T) {
 	client := NewClient("", "", "")
-	_, err := client.NewGetLimitPriceService().
-		InstrumentId("SWAP").
+	res, err := client.NewGetLimitPriceService().
+		InstrumentId("MATIC-USDT-SWAP").
 		Do(context.Background())
+	fmt.Println(res)
 	require.NoError(t, err)
 }
