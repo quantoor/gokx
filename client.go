@@ -113,14 +113,6 @@ func FormatTimestamp(t time.Time) int64 {
 	return t.UnixNano() / int64(time.Millisecond)
 }
 
-// func newJSON(data []byte) (j *simplejson.Json, err error) {
-// 	j, err = simplejson.NewJson(data)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return j, nil
-// }
-
 // getAPIEndpoint return the base endpoint of the Rest API according the UseTestnet flag
 func getAPIEndpoint() string {
 
@@ -290,10 +282,7 @@ func (c *Client) callAPI(ctx context.Context, r *request, opts ...RequestOption)
 	return data, nil
 }
 
-func (c *Client) NewGetInstrumentsService() *GetInstrumentsService {
-	return &GetInstrumentsService{c: c}
-}
-
+// Trade
 func (c *Client) NewPlaceOrderService() *PlaceOrderService {
 	return &PlaceOrderService{c: c}
 }
@@ -302,86 +291,28 @@ func (c *Client) NewCancelOrderService() *CancelOrderService {
 	return &CancelOrderService{c: c}
 }
 
+func (c *Client) NewCancelMultipleOrdersService() *CancelMultipleOrdersService {
+	return &CancelMultipleOrdersService{c: c}
+}
+
 func (c *Client) NewAmendOrderService() *AmendOrderService {
 	return &AmendOrderService{c: c}
 }
 
-// // NewCancelMultipleOrdersService
-// func (c *Client) NewCancelMultipleOrdersService() *CancelMultipleOrdersService {
-// 	return &CancelMultipleOrdersService{c: c}
-// }
+func (c *Client) NewGetOrderListService() *GetOrderListService {
+	return &GetOrderListService{c: c}
+}
 
-// // NewOrderListService
-// func (c *Client) NewGetOrderListService() *OrderListService {
-// 	return &OrderListService{c: c}
-// }
+// Market Data
+func (c *Client) NewGetTickerService() *GetTickerService {
+	return &GetTickerService{c: c}
+}
 
-// // NewGetBalanceService
-// func (c *Client) NewGetBalanceService() *GetBalanceService {
-// 	return &GetBalanceService{c: c}
-// }
+// Public Data
+func (c *Client) NewGetInstrumentsService() *GetInstrumentsService {
+	return &GetInstrumentsService{c: c}
+}
 
-// // NewGetPositionsService
-// func (c *Client) NewGetPositionsService() *GetPositionsService {
-// 	return &GetPositionsService{c: c}
-// }
-
-// // NewGetAccountAndPositionRiskService
-// func (c *Client) NewGetAccountAndPositionRiskService() *GetAccountAndPositionRiskService {
-// 	return &GetAccountAndPositionRiskService{c: c}
-// }
-
-// // GetAccountConfigurationService
-// func (c *Client) NewGetAccountConfigurationService() *GetAccountConfigurationService {
-// 	return &GetAccountConfigurationService{c: c}
-// }
-
-// // ClosePositionService
-// func (c *Client) NewClosePositionService() *ClosePositionService {
-// 	return &ClosePositionService{c: c}
-// }
-
-// // NewPlaceAlgoOrderService
-// func (c *Client) NewPlaceAlgoOrderService() *PlaceAlgoOrderService {
-// 	return &PlaceAlgoOrderService{c: c}
-// }
-
-// // NewCancelAlgoOrderService
-// func (c *Client) NewCancelAlgoOrderService() *CancelAlgoOrderService {
-// 	return &CancelAlgoOrderService{c: c}
-// }
-
-// // NewGetTickersService
-// func (c *Client) NewGetTickersService() *GetTickersService {
-// 	return &GetTickersService{c: c}
-// }
-
-// // NewGetTickerService
-// func (c *Client) NewGetTickerService() *GetTickerService {
-// 	return &GetTickerService{c: c}
-// }
-
-// // NewGetInstrumentsService
-// func (c *Client) NewGetInstrumentsService() *GetInstrumentsService {
-// 	return &GetInstrumentsService{c: c}
-// }
-
-// // NewGetInstrumentsService
-// func (c *Client) NewGetLeverageService() *GetLeverageService {
-// 	return &GetLeverageService{c: c}
-// }
-
-// // GetDeliveryExerciseHistoryService
-// func (c *Client) NewGetDeliveryExerciseHistoryService() *GetDeliveryExerciseHistoryService {
-// 	return &GetDeliveryExerciseHistoryService{c: c}
-// }
-
-// // NewFundTransferService
-// func (c *Client) NewFundTransferService() *FundTransferService {
-// 	return &FundTransferService{c: c}
-// }
-
-// // NewFundTransferService
-// func (c *Client) NewMaximumLoanService() *GetMaximumLoanService {
-// 	return &GetMaximumLoanService{c: c}
-// }
+func (c *Client) NewGetLimitPriceService() *GetLimitPriceService {
+	return &GetLimitPriceService{c: c}
+}

@@ -2,6 +2,7 @@ package okx
 
 import (
 	"context"
+	"fmt"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
@@ -57,4 +58,19 @@ func TestAmendOrder(t *testing.T) {
 		OrderId(orderId).
 		Do(context.Background())
 	require.NoError(t, err)
+}
+
+func TestCancelMultipleOrders(t *testing.T) {
+	_, err := client.NewCancelMultipleOrdersService().
+		InstrumentId(instrumentId).
+		Do(context.Background())
+	require.NoError(t, err)
+}
+
+func TestGetOrderList(t *testing.T) {
+	res, err := client.NewGetOrderListService().
+		InstrumentType(instrumentId).
+		Do(context.Background())
+	require.NoError(t, err)
+	fmt.Println(res)
 }

@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// GetInsturmentsService
 type GetInstrumentsService struct {
 	c        *Client
 	instType string
@@ -68,5 +69,48 @@ type GetInstrumentsServiceResponse struct {
 		MaxIcebergSz string `json:"maxIcebergSz"`
 		MaxTriggerSz string `json:"maxTriggerSz"`
 		MaxStopSz    string `json:"maxStopSz"`
+	} `json:"data"`
+}
+
+// GetLimitPriceService
+type GetLimitPriceService struct {
+	c      *Client
+	instId string
+}
+
+func (s *GetLimitPriceService) InstrumentId(instId string) *GetLimitPriceService {
+	s.instId = instId
+	return s
+}
+
+func (s *GetLimitPriceService) Do(ctx context.Context, opts ...RequestOption) (res *GetLimitPriceServiceResponse, err error) {
+	r := &request{
+		method:   http.MethodGet,
+		endpoint: "/api/v5/public/price-limit",
+	}
+
+	r.setParam("instId", s.instId)
+
+	data, err := s.c.callAPI(ctx, r, opts...)
+	if err != nil {
+		return nil, err
+	}
+	res = new(GetLimitPriceServiceResponse)
+	err = json.Unmarshal(data, res)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+type GetLimitPriceServiceResponse struct {
+	Code string `json:"code"`
+	Msg  string `json:"msg"`
+	Data []struct {
+		InstType string `json:"instType"`
+		InstId   string `json:"instId"`
+		BuyLmt   string `json:"buyLmt"`
+		SellLmt  string `json:"sellLmt"`
+		Ts       string `json:"ts"`
 	} `json:"data"`
 }
