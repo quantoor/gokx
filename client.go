@@ -302,6 +302,10 @@ func (c *Client) NewCancelOrderService() *CancelOrderService {
 	return &CancelOrderService{c: c}
 }
 
+func (c *Client) NewAmendOrderService() *AmendOrderService {
+	return &AmendOrderService{c: c}
+}
+
 // // NewCancelMultipleOrdersService
 // func (c *Client) NewCancelMultipleOrdersService() *CancelMultipleOrdersService {
 // 	return &CancelMultipleOrdersService{c: c}
@@ -310,11 +314,6 @@ func (c *Client) NewCancelOrderService() *CancelOrderService {
 // // NewOrderListService
 // func (c *Client) NewGetOrderListService() *OrderListService {
 // 	return &OrderListService{c: c}
-// }
-
-// // NewAmendOrderService
-// func (c *Client) NewAmendOrderService() *AmendOrderService {
-// 	return &AmendOrderService{c: c}
 // }
 
 // // NewGetBalanceService

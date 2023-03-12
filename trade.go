@@ -149,3 +149,84 @@ type CancelOrderServiceResponse struct {
 		SMsg    string `json:"sMsg"`
 	} `json:"data"`
 }
+
+// AmendOrderService
+type AmendOrderService struct {
+	c       *Client
+	instId  string
+	ordId   *string
+	clOrdId *string
+	newSz   *string
+	newPx   *string
+}
+
+func (s *AmendOrderService) InstrumentId(instId string) *AmendOrderService {
+	s.instId = instId
+	return s
+}
+
+func (s *AmendOrderService) OrderId(ordId string) *AmendOrderService {
+	s.ordId = &ordId
+	return s
+}
+
+func (s *AmendOrderService) ClientOrderId(clOrdId string) *AmendOrderService {
+	s.clOrdId = &clOrdId
+	return s
+}
+
+func (s *AmendOrderService) NewSize(newSz string) *AmendOrderService {
+	s.newSz = &newSz
+	return s
+}
+
+func (s *AmendOrderService) NewPrice(newPx string) *AmendOrderService {
+	s.newPx = &newPx
+	return s
+}
+
+func (s *AmendOrderService) Do(ctx context.Context, opts ...RequestOption) (res *EditOrderServiceResponse, err error) {
+	r := &request{
+		method:   http.MethodPost,
+		endpoint: "/api/v5/trade/amend-order",
+		secType:  secTypeSigned,
+	}
+
+	r.setBodyParam("instId", s.instId)
+
+	if s.ordId != nil {
+		r.setBodyParam("ordId", *s.ordId)
+	}
+	if s.clOrdId != nil {
+		r.setBodyParam("clOrdId", *s.clOrdId)
+	}
+	if s.newSz != nil {
+		r.setBodyParam("newSz", *s.newSz)
+	}
+	if s.newPx != nil {
+		r.setBodyParam("newPx", *s.newPx)
+	}
+
+	data, err := s.c.callAPI(ctx, r, opts...)
+	if err != nil {
+		return nil, err
+	}
+	res = new(EditOrderServiceResponse)
+	err = json.Unmarshal(data, res)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+type EditOrderServiceResponse struct {
+	Code string `json:"code"`
+	Msg  string `json:"msg"`
+	Data []struct {
+		ClOrdId string `json:"clOrdId"`
+		OrdId   string `json:"ordId"`
+		Tag     string `json:"tag"`
+		SCode   string `json:"sCode"`
+		SMsg    string `json:"sMsg"`
+	} `json:"data"`
+}
