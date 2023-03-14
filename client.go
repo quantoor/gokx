@@ -317,21 +317,9 @@ func (c *Client) NewGetLimitPriceService() *GetLimitPriceService {
 	return &GetLimitPriceService{c: c}
 }
 
-func (c *Client) SubscribeOrderChannel(orderEventCh chan<- *WsOrderDetail) error {
-	wsHandlerOrders := func(event *WsOrdersEvent) {
-		reqBodyBytesTemp := new(bytes.Buffer)
-		json.NewEncoder(reqBodyBytesTemp).Encode(&event)
-		for _, v := range event.Data {
-			orderEventCh <- v
-		}
-	}
-
-	errHandlerOrders := func(err error) {
-		fmt.Println("ERROR", err)
-	}
-
+func (c *Client) SubscribeOrderEvents(eventHandler func(event *WsOrdersEvent), errorHandler func(error)) error {
 	go func() {
-		_, _, err := WsOrdersServe("ANY", "", "", c.APIKey, c.SecretKey, c.PassPhrase, wsHandlerOrders, errHandlerOrders, false)
+		_, _, err := WsOrdersServe("ANY", "", "", c.APIKey, c.SecretKey, c.PassPhrase, eventHandler, errorHandler, false)
 		if err != nil {
 			fmt.Println("ERROR", err)
 		}
